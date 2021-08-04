@@ -1,0 +1,28 @@
+# Declare cmake information
+cmake_minimum_required(VERSION 2.8.10)
+project(${APPLICATION_NAME})
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${APPLICATION_PUBLISH_DIR}/lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${APPLICATION_PUBLISH_DIR}/lib)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${APPLICATION_PUBLISH_DIR}/bin)
+
+# Show cmake infromation
+message("APPLICATION_NAME= ${APPLICATION_NAME}")
+message("APPLICATION_SOURCE_DIR= ${APPLICATION_SOURCE_DIR}")
+message("CMAKE_ARCHIVE_OUTPUT_DIRECTORY= ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}")
+message("CMAKE_LIBRARY_OUTPUT_DIRECTORY= ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}")
+message("CMAKE_RUNTIME_OUTPUT_DIRECTORY= ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
+
+# Add library & classes
+file(
+    GLOB
+    includes_library
+    "${APPLICATION_SOURCE_DIR}/classes/*.cpp"
+    "${APPLICATION_SOURCE_DIR}/classes/*.h"
+)
+
+# Add source code in project
+add_executable(
+    ${APPLICATION_NAME}
+    ${APPLICATION_SOURCE_DIR}/main.cpp
+    ${includes_library}
+)
