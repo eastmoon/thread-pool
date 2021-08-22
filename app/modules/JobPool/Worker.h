@@ -1,7 +1,6 @@
 #pragma once
 #include <thread>
 #include <atomic>
-#include <chrono>
 
 namespace JobPool {
     //
