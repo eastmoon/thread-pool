@@ -17,7 +17,7 @@ private:
 // 测试套件宣告
 BOOST_AUTO_TEST_SUITE( JobPool_Test_Suite )
 
-// 測試案例，WorkerController 的執行控制鎖
+// 測試案例
 BOOST_AUTO_TEST_CASE( JobPool_WorkerController_Case_Nonlock_Count )
 {
     // Declare atomic count variable
