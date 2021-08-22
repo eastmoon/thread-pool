@@ -26,3 +26,13 @@ add_executable(
     ${APPLICATION_SOURCE_DIR}/main.cpp
     ${includes_library}
 )
+
+# Add thread package
+find_package(Threads REQUIRED)
+if(THREADS_HAVE_PTHREAD_ARG)
+  set_property(TARGET ${APPLICATION_NAME} PROPERTY COMPILE_OPTIONS "-pthread")
+  set_property(TARGET ${APPLICATION_NAME} PROPERTY INTERFACE_COMPILE_OPTIONS "-pthread")
+endif()
+if(CMAKE_THREAD_LIBS_INIT)
+  target_link_libraries(${APPLICATION_NAME} "${CMAKE_THREAD_LIBS_INIT}")
+endif()
