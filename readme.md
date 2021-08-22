@@ -13,6 +13,32 @@
 
 ## Algorithm
 
+#### Job Pool
+
++ job is a thread which run at death mode and infinite loop.
++ pool is a job controller and container.
++ pool need assign worker and job number
+    - worker using memory pool to new object.
++ pool can play for start all worker
+    - use flag to control worker loop.
++ pool can stop for down all worker
+    - use flag to control worker loop.
++ pool can resize ( feature )
+    - when resize pool, it will stop all worker
+    - add or remove worker
+    - when resize over, it will play all worker
+
+```
+JobPool.Data
+JobPool.Pool
+JobPool.Worker
+
+ShardData obj = new Data();
+Pool<Worker, Data>(ShardData, job_number)
+Pool.play()
+Pool.stop()
+```
+
 #### Thread Pool
 
 + use pool worker to assign data and worker
@@ -24,20 +50,6 @@
 ThreadPool.Data
 ThreadPool.Pool
 ThreadPool.Worker
-```
-
-#### Job Pool
-
-+ assign worker and job number
-+ play for start all worker
-    - use flag to control worker loop.
-+ stop for down all worker
-    - use flag to control worker loop.
-
-```
-JobPool.Data
-JobPool.Pool
-JobPool.Worker
 ```
 
 ## 參考
