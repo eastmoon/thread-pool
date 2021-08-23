@@ -1,15 +1,17 @@
 // 定義測試模組名稱
 #include <thread>
+#include "../app/modules/ThreadPool/Worker.h"
 
 // 類別宣告
-class Worker {
+class Worker: public ThreadPool::Worker  {
 public:
     Worker(long* _count) : m_count(_count), m_number(0) {}
-    void operator() () {
+    void exec() {
         for ( int i = 0 ; i < 10 ; i++ ) {
             *this->m_count += 1;
             this->m_number += 1;
         }
+        BOOST_TEST_MESSAGE("Step 0 : number value in worker = " << this->m_number);
     }
     long m_number;
 private:
@@ -19,7 +21,7 @@ private:
 // 测试套件宣告
 BOOST_AUTO_TEST_SUITE( JobPool_Test_Suite )
 
-// 測試案例，WorkerController 的執行控制鎖
+// 測試案例
 BOOST_AUTO_TEST_CASE( JobPool_Worker_Case_Count )
 {
     // Declare atomic count variable

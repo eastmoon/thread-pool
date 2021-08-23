@@ -4,6 +4,8 @@
 #include <boost/test/included/unit_test.hpp>
 // 測試模組
 //#include "./case/test_thread_worker_count.cpp"
+//#include "./case/test_thread_worker_and_thread_set.cpp"
+//#include "./case/test_thread_worker_and_thread_guard.cpp"
 //#include "./case/test_jobpool_worker_controller_atomic_count.cpp"
 //#include "./case/test_jobpool_worker_controller_nonlock_count.cpp"
 //#include "./case/test_jobpool_pool_atomic_count.cpp"
