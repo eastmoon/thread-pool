@@ -1,5 +1,6 @@
 #pragma once
 #include <thread>
+#include <vector>
 
 namespace ThreadPool {
     /*
@@ -21,14 +22,6 @@ namespace ThreadPool {
         }
     protected:
         virtual void exec() {}
-    };
-    /*
-    // Pool，執行緒池
-    */
-    class Pool {
-        public:
-            // Constructor
-            Pool();
     };
     /*
     // ThreadSet，執行緒集
@@ -64,9 +57,8 @@ namespace ThreadPool {
     //// C++ Threading : Thread Management RAII, ref : https://gist.github.com/anubhavrohatgi/74137561707121a7ac604002d6ef240f
     //// 使用 RAII 完成线程等待, ref : https://www.cnblogs.com/jingyg/p/5970003.html
     */
+    enum ThreadAction {join, detach};
     class ThreadGuard {
-    public:
-        enum ThreadAction {join, detach};
     public:
         ThreadGuard(std::thread& _thread, ThreadAction _action = ThreadAction::join): m_thread(_thread), m_action(_action) {}
         ~ThreadGuard() {
@@ -92,5 +84,48 @@ namespace ThreadPool {
     private:
         std::thread& m_thread;
         ThreadAction m_action;
+    };
+
+    /*
+    // Pool，執行緒池
+    //
+    // Pool 會基於宣告的 Worker 與指定執行數量，控制啟動或關閉執行緒。
+    */
+    template <class WORKER, class DATA>
+    class Pool {
+    public:
+        // Constructor
+        Pool( int _number = 1, ThreadAction _action = ThreadAction::join ) : m_number(_number), m_action(_action) {}
+        Pool( DATA* _data, int _number = 1, ThreadAction _action = ThreadAction::join ) : m_worker(_data), m_number(_number), m_action(_action) {}
+        ~Pool() {
+            this->stop();
+        }
+        void play() {
+            if ( this->m_threads.size() != this->m_number ) {
+                for( int i = 0 ; i < this->m_number ; i++ ) {
+                    std::thread t = std::thread(this->m_worker);
+                    ThreadPool::ThreadGuard tg(t, this->m_action);
+                    this->m_threads.push_back(new ThreadPool::ThreadSet(t));
+                }
+            }
+        }
+        void stop() {
+            if (this->m_threads.size() > 0) {
+                for_each(
+                    this->m_threads.begin(),
+                    this->m_threads.end(),
+                    [](const ThreadSet* _set) {
+                        delete _set;
+                        _set = nullptr;
+                    }
+                );
+                this->m_threads.clear();
+            }
+        }
+    private:
+        WORKER m_worker;
+        ThreadAction m_action;
+        int m_number;
+        std::vector<ThreadSet*> m_threads;
     };
 }
