@@ -152,6 +152,10 @@ namespace ThreadPool {
             this->m_number = _number;
             this->m_threads.reserve(this->m_number);
         }
+        //
+        WORKER* getWorker() {
+            return &this->m_worker;
+        }
     private:
         ThreadSet* createThreadSet() {
             std::thread t = std::thread(this->m_worker);
