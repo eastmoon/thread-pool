@@ -34,8 +34,8 @@ ThreadPool.Pool
 
 + job is a thread which run at death mode and infinite loop.
     - job is a Worker
-    - job is a Worker action
-    - job is a closure object
+    - job is a Worker action ( feature )
+    - job is a closure object  ( feature )
 + pool is a job controller and container.
 + pool need assign worker and job number
     - worker using memory pool to new object.
@@ -43,14 +43,11 @@ ThreadPool.Pool
     - use flag to control worker loop.
 + pool can stop for down all worker
     - use flag to control worker loop.
-+ pool can resize ( feature )
-    - when resize pool, it will stop all worker
-    - add or remove worker
-    - when resize over, it will play all worker
++ pool can resize
+
 
 ```
 JobPool.Worker
-JobPool.WorkerController
 JobPool.Pool
 ```
 
