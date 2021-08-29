@@ -23,6 +23,14 @@ namespace ThreadPool {
         virtual void exec() {}
     };
     /*
+    // Pool，執行緒池
+    */
+    class Pool {
+        public:
+            // Constructor
+            Pool();
+    };
+    /*
     // ThreadSet，執行緒集
     //
     // Thread 依據其執行行為 ( join or detach ) 在系統解構時會觸發 std::terminate 以此結束執行緒運作；然若需中斷一個仍在運作中的執行緒，則會需要使用基礎的 pthread 功能進行移除。

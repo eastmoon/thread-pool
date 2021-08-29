@@ -1,6 +1,6 @@
 // 定義測試模組名稱
 #include <thread>
-#include "../app/modules/ThreadPool/Worker.h"
+#include "../app/modules/ThreadPool.h"
 
 // 類別宣告
 class Worker: public ThreadPool::Worker  {
