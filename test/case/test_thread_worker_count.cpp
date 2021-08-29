@@ -2,10 +2,13 @@
 #include <thread>
 #include "../app/modules/ThreadPool.h"
 
+// 测试套件宣告
+BOOST_AUTO_TEST_SUITE( ThreadPool_Test_Suite )
+
 // 類別宣告
-class Worker: public ThreadPool::Worker  {
+class BaseWorker: public ThreadPool::Worker  {
 public:
-    Worker(long* _count) : m_count(_count), m_number(0) {}
+    BaseWorker(long* _count) : m_count(_count), m_number(0) {}
     void exec() {
         for ( int i = 0 ; i < 10 ; i++ ) {
             *this->m_count += 1;
@@ -18,15 +21,12 @@ private:
     long* m_count;
 };
 
-// 测试套件宣告
-BOOST_AUTO_TEST_SUITE( JobPool_Test_Suite )
-
 // 測試案例
 BOOST_AUTO_TEST_CASE( JobPool_Worker_Case_Count )
 {
     // Declare atomic count variable
     long count = 0;
-    Worker w(&count);
+    BaseWorker w(&count);
 
     // Declare thread controller & worker
     std::thread t1(w);
@@ -40,7 +40,6 @@ BOOST_AUTO_TEST_CASE( JobPool_Worker_Case_Count )
     BOOST_CHECK(count == 20);
     BOOST_TEST_MESSAGE("Step 1 : number value = " << w.m_number);
     BOOST_CHECK(w.m_number == 0);
-
 }
 
 

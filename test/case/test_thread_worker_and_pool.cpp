@@ -2,6 +2,9 @@
 #include <thread>
 #include "../app/modules/ThreadPool.h"
 
+// 测试套件宣告
+BOOST_AUTO_TEST_SUITE( ThreadPool_Test_Suite )
+
 // 類別宣告
 bool lock = false;
 class LockWorker: public ThreadPool::Worker  {
@@ -24,9 +27,6 @@ protected:
 private:
     std::atomic<long>* m_count;
 };
-
-// 测试套件宣告
-BOOST_AUTO_TEST_SUITE( JobPool_Test_Suite )
 
 // 測試案例
 BOOST_AUTO_TEST_CASE( JobPool_Worker_and_Pool_Case_Non_assignment_worker )

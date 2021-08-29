@@ -2,10 +2,14 @@
 #include <thread>
 #include "../app/modules/ThreadPool.h"
 
+
+// 测试套件宣告
+BOOST_AUTO_TEST_SUITE( ThreadPool_Test_Suite )
+
 // 類別宣告
-class Worker: public ThreadPool::Worker  {
+class NonDelayWorker: public ThreadPool::Worker  {
 public:
-    Worker(long* _count) : m_count(_count) {}
+    NonDelayWorker(long* _count) : m_count(_count) {}
     void exec() {
         for ( int i = 0 ; i < 10 ; i++ ) {
             *this->m_count += 1;
@@ -18,18 +22,15 @@ private:
 void runThread(long* _count) {
     BOOST_TEST_MESSAGE("Step 1.1 : Create thread, count : " << *_count);
     BOOST_CHECK(*_count == 0);
-    Worker w(_count);
+    NonDelayWorker w(_count);
     std::thread t(w);
     ThreadPool::ThreadGuard tg(t, ThreadPool::ThreadAction::join);
     BOOST_TEST_MESSAGE("Step 1.2 : Before runThread close, count : " << *_count);
     BOOST_CHECK(*_count >= 0);
 }
 
-// 测试套件宣告
-BOOST_AUTO_TEST_SUITE( JobPool_Test_Suite )
-
 // 測試案例
-BOOST_AUTO_TEST_CASE( JobPool_Worker_and_ThreadGuard_Case_Count )
+BOOST_AUTO_TEST_CASE( JobPool_Worker_and_ThreadSetCase_Count )
 {
     // Declare atomic count variable
     long count = 0;

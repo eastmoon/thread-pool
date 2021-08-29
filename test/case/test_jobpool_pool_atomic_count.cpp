@@ -1,6 +1,9 @@
 // 定義測試模組名稱
 #include "../app/modules/JobPool.h"
 
+// 测试套件宣告
+BOOST_AUTO_TEST_SUITE( JobPool_Test_Suite )
+
 // 類別宣告
 class AtomicCountWorker: public JobPool::Worker {
 public:
@@ -13,9 +16,6 @@ protected:
 private:
     std::atomic<long>* m_count;
 };
-
-// 测试套件宣告
-BOOST_AUTO_TEST_SUITE( JobPool_Test_Suite )
 
 // 測試案例
 BOOST_AUTO_TEST_CASE( JobPool_Pool_Case_Atomic_Count_Default_Number )
