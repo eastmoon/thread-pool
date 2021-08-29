@@ -70,8 +70,7 @@ namespace ThreadPool {
                 }
             }
         }
-        //delete the copy constructor and copy assignment operator as thread cannot be copied or assigned
-        //only can it be moved
+        //delete the copy constructor and copy assignment operator as thread cannot be copied or assigned only can it be moved
         ThreadGuard(const ThreadGuard &)= delete;
         ThreadGuard& operator=(const ThreadGuard &)= delete ;
         //
@@ -100,6 +99,10 @@ namespace ThreadPool {
         ~Pool() {
             this->stop();
         }
+        //delete the copy constructor and copy assignment operator
+        Pool(const Pool &)= delete;
+        Pool& operator=(const Pool &)= delete ;
+        // Play all thread, if thread set isn't exist
         void play() {
             if ( this->m_threads.size() != this->m_number ) {
                 for( int i = 0 ; i < this->m_number ; i++ ) {
@@ -109,6 +112,7 @@ namespace ThreadPool {
                 }
             }
         }
+        // Stop all thread, if thread set is exist
         void stop() {
             if (this->m_threads.size() > 0) {
                 for_each(
