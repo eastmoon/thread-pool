@@ -94,8 +94,12 @@ namespace ThreadPool {
     class Pool {
     public:
         // Constructor
-        Pool( int _number = 1, ThreadAction _action = ThreadAction::join ) : m_number(_number), m_action(_action) {}
-        Pool( DATA* _data, int _number = 1, ThreadAction _action = ThreadAction::join ) : m_worker(_data), m_number(_number), m_action(_action) {}
+        Pool( int _number = 1, ThreadAction _action = ThreadAction::join ) : m_number(_number), m_action(_action) {
+            this->m_threads.reserve(this->m_number);
+        }
+        Pool( DATA* _data, int _number = 1, ThreadAction _action = ThreadAction::join ) : m_worker(_data), m_number(_number), m_action(_action) {
+            this->m_threads.reserve(this->m_number);
+        }
         ~Pool() {
             this->stop();
         }
@@ -105,10 +109,23 @@ namespace ThreadPool {
         // Play all thread, if thread set isn't exist
         void play() {
             if ( this->m_threads.size() != this->m_number ) {
+                // Remove thread set vector have more than size number
+                if ( this->m_threads.size() > this->m_number ) {
+                    for( int i = this->m_threads.size() - 1 ; i >= this->m_number ; i-- ) {
+                        if ( this->m_threads[i] != nullptr ) {
+                            delete this->m_threads[i];
+                            this->m_threads[i] = nullptr;
+                        }
+                    }
+                }
+                // Change vector container size
+                this->m_threads.resize(this->m_number);
+                // Add thread set, if cantainer is null
                 for( int i = 0 ; i < this->m_number ; i++ ) {
-                    std::thread t = std::thread(this->m_worker);
-                    ThreadPool::ThreadGuard tg(t, this->m_action);
-                    this->m_threads.push_back(new ThreadPool::ThreadSet(t));
+                    if ( this->m_threads[i] == nullptr ) {
+                        ThreadSet* t = createThreadSet();
+                        this->m_threads[i] = t;
+                    }
                 }
             }
         }
@@ -119,12 +136,27 @@ namespace ThreadPool {
                     this->m_threads.begin(),
                     this->m_threads.end(),
                     [](const ThreadSet* _set) {
-                        delete _set;
-                        _set = nullptr;
+                        if ( _set != nullptr ) {
+                            delete _set;
+                        }
                     }
                 );
                 this->m_threads.clear();
             }
+        }
+        // Size will add or remove thread set.
+        void size(int _number) {
+            if ( _number < 0 ) {
+                _number = 0;
+            }
+            this->m_number = _number;
+            this->m_threads.reserve(this->m_number);
+        }
+    private:
+        ThreadSet* createThreadSet() {
+            std::thread t = std::thread(this->m_worker);
+            ThreadPool::ThreadGuard tg(t, this->m_action);
+            return new ThreadPool::ThreadSet(t);
         }
     private:
         WORKER m_worker;
