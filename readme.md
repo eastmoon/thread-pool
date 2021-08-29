@@ -13,9 +13,29 @@
 
 ## Algorithm
 
+#### Thread Pool
+
++ worker is a thread object to package method and variable.
+    - thread set is a thread handler
+    - thread guard is make sure thread has run join or detach
++ pool is a worker runner and controller
+    - play to start all thread
+    - stop to delete all thread
+    - size to change current execute thread
+
+```
+ThreadPool.Worker
+ThreadPool.ThreadSet
+ThreadPool.ThreadGuard
+ThreadPool.Pool
+```
+
 #### Job Pool
 
 + job is a thread which run at death mode and infinite loop.
+    - job is a Worker
+    - job is a Worker action
+    - job is a closure object
 + pool is a job controller and container.
 + pool need assign worker and job number
     - worker using memory pool to new object.
@@ -29,27 +49,9 @@
     - when resize over, it will play all worker
 
 ```
-JobPool.Data
-JobPool.Pool
 JobPool.Worker
-
-ShardData obj = new Data();
-Pool<Worker, Data>(ShardData, job_number)
-Pool.play()
-Pool.stop()
-```
-
-#### Thread Pool
-
-+ use pool worker to assign data and worker
-+ add will push data into queue
-    - if queue have more then threshold data, grow up worker array
-+ each data object have member variable which for worker calculate, and result object for save calculate result
-
-```
-ThreadPool.Data
-ThreadPool.Pool
-ThreadPool.Worker
+JobPool.WorkerController
+JobPool.Pool
 ```
 
 ## 參考
