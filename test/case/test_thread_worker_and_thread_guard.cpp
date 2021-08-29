@@ -20,7 +20,7 @@ void runThread(long* _count) {
     BOOST_CHECK(*_count == 0);
     Worker w(_count);
     std::thread t(w);
-    ThreadPool::ThreadGuard tg(t);
+    ThreadPool::ThreadGuard tg(t, ThreadPool::ThreadAction::join);
     BOOST_TEST_MESSAGE("Step 1.2 : Before runThread close, count : " << *_count);
     BOOST_CHECK(*_count >= 0);
 }
