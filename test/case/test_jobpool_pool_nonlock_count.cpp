@@ -1,6 +1,5 @@
 // 定義測試模組名稱
-#include "../app/modules/JobPool/Worker.h"
-#include "../app/modules/JobPool/Pool.h"
+#include "../app/modules/JobPool.h"
 
 // 類別宣告
 class CountWorker: public JobPool::Worker {
@@ -18,7 +17,7 @@ private:
 BOOST_AUTO_TEST_SUITE( JobPool_Test_Suite )
 
 // 測試案例
-BOOST_AUTO_TEST_CASE( JobPool_WorkerController_Case_Nonlock_Count )
+BOOST_AUTO_TEST_CASE( JobPool_Pool_Case_Nonlock_Count )
 {
     // Declare atomic count variable
     long count = 0;

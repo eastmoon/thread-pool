@@ -10,4 +10,4 @@
 //#include "./case/test_jobpool_worker_controller_atomic_count.cpp"
 //#include "./case/test_jobpool_worker_controller_nonlock_count.cpp"
 //#include "./case/test_jobpool_pool_atomic_count.cpp"
-//#include "./case/test_jobpool_pool_nonlock_count.cpp"
+#include "./case/test_jobpool_pool_nonlock_count.cpp"

@@ -1,5 +1,5 @@
 // 定義測試模組名稱
-#include "../app/modules/JobPool/Worker.h"
+#include "../app/modules/JobPool.h"
 
 // 類別宣告
 class CountWorker: public JobPool::Worker {
